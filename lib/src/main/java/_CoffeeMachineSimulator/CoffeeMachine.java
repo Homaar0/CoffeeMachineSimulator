@@ -8,6 +8,8 @@ public class CoffeeMachine {
 	private int coffeeBeans;
 	private int disposableCups;
 	private int money;
+	private int coffeeCounter;
+	private boolean buyingDirtyCoffee = false;
 	
 	CoffeeMachine() {
 		this.water = 400;
@@ -15,6 +17,7 @@ public class CoffeeMachine {
 		this.coffeeBeans = 120;
 		this.disposableCups = 9;
 		this.money = 550;
+		this.coffeeCounter = 0;
 	}
 	
 	void printState() {
@@ -46,81 +49,101 @@ public class CoffeeMachine {
 	
 	void buy() {
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("\nWhat do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu: ");
 		
-		String input = scanner.nextLine();
-		if (input.equals("back")) {
-			
-		} else if (input.matches("\\d")) {
-			int control = Integer.parseInt(input);
-			switch (control) {
-			case 1: Espresso espresso = new Espresso();
-					if (this.water >= espresso.getWaterNeeded() && this.milk >= espresso.getMilkNeeded() &&
-							this.coffeeBeans >= espresso.getCoffeeBeansNeeded() && this.disposableCups >= 1) {
-						this.water -= espresso.getWaterNeeded();
-						this.milk -= espresso.getMilkNeeded();
-						this.coffeeBeans -= espresso.getCoffeeBeansNeeded();
-						this.disposableCups--;
-						this.money += espresso.getPrice();
-						System.out.println("I have enough resources, making you a coffee!");
-					} else if (this.water < espresso.getWaterNeeded()) {
-						System.out.println("Sorry, not enough water!");
-					} else if (this.coffeeBeans < espresso.getCoffeeBeansNeeded()) {
-						System.out.println("Sorry, not enough coffee beans!");
-					} else if (this.disposableCups < 1) {
-						System.out.println("Sorry, not enough disposable cups!");
-					} else {
-						
-					}
-					
-					break;
-			case 2: Latte latte = new Latte();
-					if (this.water >= latte.getWaterNeeded() && this.milk >= latte.getMilkNeeded() &&
-							this.coffeeBeans >= latte.getCoffeeBeansNeeded() && this.disposableCups >= 1) {
-						this.water -= latte.getWaterNeeded();
-						this.milk -= latte.getMilkNeeded();
-						this.coffeeBeans -= latte.getCoffeeBeansNeeded();
-						this.disposableCups--;
-						this.money += latte.getPrice();
-						System.out.println("I have enough resources, making you a coffee!");
-					} else if (this.water < latte.getWaterNeeded()) {
-						System.out.println("Sorry, not enough water!");
-					} else if (this.coffeeBeans < latte.getCoffeeBeansNeeded()) {
-						System.out.println("Sorry, not enough coffee beans!");
-					} else if (this.disposableCups < 1) {
-						System.out.println("Sorry, not enough disposable cups!");
-					} else {
-						System.out.println("Sorry, not enough milk!");
-					}
-					
-					break;		
-			case 3: Cappuccino cappuccino = new Cappuccino();
-					if (this.water >= cappuccino.getWaterNeeded() && this.milk >= cappuccino.getMilkNeeded() &&
-							this.coffeeBeans >= cappuccino.getCoffeeBeansNeeded() && this.disposableCups >= 1) {
-						this.water -= cappuccino.getWaterNeeded();
-						this.milk -= cappuccino.getMilkNeeded();
-						this.coffeeBeans -= cappuccino.getCoffeeBeansNeeded();
-						this.disposableCups--;
-						this.money += cappuccino.getPrice();
-						System.out.println("I have enough resources, making you a coffee!");
-					} else if (this.water < cappuccino.getWaterNeeded()) {
-						System.out.println("Sorry, not enough water!");
-					} else if (this.coffeeBeans < cappuccino.getCoffeeBeansNeeded()) {
-						System.out.println("Sorry, not enough coffee beans!");
-					} else if (this.disposableCups < 1) {
-						System.out.println("Sorry, not enough disposable cups!");
-					} else {
-						System.out.println("Sorry, not enough milk!");
-					}
-					
-					break;	
-			default: System.out.println("");			
-		}
+		if (this.coffeeCounter >= 10) {
+			System.out.println("I need cleaning!");
+			this.buyingDirtyCoffee = true;
 		} else {
+			System.out.println("\nWhat do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino, back - to main menu: ");
+			String input = scanner.nextLine();		
+			if (input.equals("back")) {
+			
+			} else if (input.matches("\\d") && this.coffeeCounter < 10) {
+				int control = Integer.parseInt(input);
+				switch (control) {
+				case 1: Espresso espresso = new Espresso();
+						if (this.water >= espresso.getWaterNeeded() && this.milk >= espresso.getMilkNeeded() &&
+								this.coffeeBeans >= espresso.getCoffeeBeansNeeded() && this.disposableCups >= 1) {
+							this.water -= espresso.getWaterNeeded();
+							this.milk -= espresso.getMilkNeeded();
+							this.coffeeBeans -= espresso.getCoffeeBeansNeeded();
+							this.disposableCups--;
+							this.money += espresso.getPrice();
+							this.coffeeCounter++;
+							System.out.println("I have enough resources, making you a coffee!");
+						} else if (this.water < espresso.getWaterNeeded()) {
+							System.out.println("Sorry, not enough water!");
+						} else if (this.coffeeBeans < espresso.getCoffeeBeansNeeded()) {
+							System.out.println("Sorry, not enough coffee beans!");
+						} else if (this.disposableCups < 1) {
+							System.out.println("Sorry, not enough disposable cups!");
+						} else {
+						
+						}
+					
+						break;
+				case 2: Latte latte = new Latte();
+						if (this.water >= latte.getWaterNeeded() && this.milk >= latte.getMilkNeeded() &&
+								this.coffeeBeans >= latte.getCoffeeBeansNeeded() && this.disposableCups >= 1) {
+							this.water -= latte.getWaterNeeded();
+							this.milk -= latte.getMilkNeeded();
+							this.coffeeBeans -= latte.getCoffeeBeansNeeded();
+							this.disposableCups--;
+							this.money += latte.getPrice();
+							this.coffeeCounter++;
+							System.out.println("I have enough resources, making you a coffee!");
+						} else if (this.water < latte.getWaterNeeded()) {
+							System.out.println("Sorry, not enough water!");
+						} else if (this.coffeeBeans < latte.getCoffeeBeansNeeded()) {
+							System.out.println("Sorry, not enough coffee beans!");
+						} else if (this.disposableCups < 1) {
+							System.out.println("Sorry, not enough disposable cups!");
+						} else {
+							System.out.println("Sorry, not enough milk!");
+						}
+					
+						break;		
+				case 3: Cappuccino cappuccino = new Cappuccino();
+						if (this.water >= cappuccino.getWaterNeeded() && this.milk >= cappuccino.getMilkNeeded() &&
+								this.coffeeBeans >= cappuccino.getCoffeeBeansNeeded() && this.disposableCups >= 1) {
+							this.water -= cappuccino.getWaterNeeded();
+							this.milk -= cappuccino.getMilkNeeded();
+							this.coffeeBeans -= cappuccino.getCoffeeBeansNeeded();
+							this.disposableCups--;
+							this.money += cappuccino.getPrice();
+							this.coffeeCounter++;
+							System.out.println("I have enough resources, making you a coffee!");
+						} else if (this.water < cappuccino.getWaterNeeded()) {
+							System.out.println("Sorry, not enough water!");
+						} else if (this.coffeeBeans < cappuccino.getCoffeeBeansNeeded()) {
+							System.out.println("Sorry, not enough coffee beans!");
+						} else if (this.disposableCups < 1) {
+							System.out.println("Sorry, not enough disposable cups!");
+						} else {
+							System.out.println("Sorry, not enough milk!");
+						}
+					
+						break;	
+				default: System.out.println("");			
+				}
+			} else {
 			System.out.println("");
+			}
 		}
-		
-		
+	}
+	
+	void clean() {
+		this.coffeeCounter = 0;
+		this.buyingDirtyCoffee = false;
+		System.out.println("I have been cleaned!");
+	}
+	
+	public int getCoffeeCounter() {
+		return this.coffeeCounter;
+	}
+	
+	public boolean isBuyingDirtyCoffee() {
+		return this.buyingDirtyCoffee;
 	}
 
 }
